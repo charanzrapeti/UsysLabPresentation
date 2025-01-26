@@ -1,40 +1,374 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<html>
+  <head>
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/white-contrast.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-light.min.css"
+      integrity="sha512-o5v54Kh5PH0dgnf9ei0L+vMRsbm5fvIvnR/XkrZZjN4mqdaeH7PW66tumBoQVIaKNVrLCZiBEfHzRY4JJSMK/Q=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <style>
+      .reveal {
+        height: 100%;
+        width: 100%;
+      }
 
-		<title>reveal.js</title>
+      .slides {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
 
-		<link rel="stylesheet" href="dist/reset.css">
-		<link rel="stylesheet" href="dist/reveal.css">
-		<link rel="stylesheet" href="dist/theme/black.css">
+      .split {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
 
-		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/monokai.css">
-	</head>
-	<body>
-		<div class="reveal">
-			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+      .code {
+        width: 70%;
+        padding: 10px;
+        
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      .media {
+        width: 30%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        padding: 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+
+      .media iframe {
+        width: 100%;
+    height: 100%;
+    border: none;
+    object-fit: contain;
+	overflow: hidden;
+      }
+
+      pre {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      code {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+
+	  .code pre {
+    overflow: hidden; /* Prevent scrollbars inside the <pre> tag */
+    white-space: pre-wrap; /* Allow wrapping inside the <pre> tag */
+    word-wrap: break-word; /* Break long words to prevent overflow */
+  }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+		<section>
+			SLIde 1
+		</section>
+
+		<section data-markdown>
+			<script type="text/template">
+				# Ubiquitous Systems Lab  
+				## Project: Stair vs Lift Detector  
+
+				<div style="text-align: center;">
+				<img src="path-to-your-image.jpg" alt="Project Image" style="max-width: 80%; max-height: 80%; object-fit: contain;" />
+				</div>
+
+				<div style="position: absolute; bottom: 20px; right: 20px;">
+				<ul>
+					<li>Person1 - 1825068</li>
+					<li>Person2 - 1841219</li>
+					<li>Person3 - 1845374</li>
+				</ul>
+				</div>
+
+				---
+
+				## Introduction
+
+				### Objective:
+				Detect the activity of a person using a wearable device with embedded sensors, identifying whether they're using stairs or a lift.
+
+				### Components Used:
+				- **WESMOS LOLIN 32 LITE board**
+				- **MPU6050** (Accelerometer/Gyroscope)
+				- **BMP280** (Pressure Sensor)
+
+				### Key Features:
+				- Calculate roll, pitch, and yaw using accelerometer data.
+				- Detect lift vs stair activity through sensor data analysis.
+				- Utilize x, y, z accelerations and pressure/altitude to predict:
+				- Human activity (lift or steps).
+				- Direction (up or down).
+				- Number of steps taken.
+
+				---
+
+				## Hardware - Device Setup
+
+				<div style="display: flex;">
+				<div style="width: 50%;">
+					- Using I2C communication for data collection via ESP32  
+					- Collecting 3-axis rotation/acceleration (MPU6050)  
+					- Measuring pressure/altitude (BMP280)  
+					- Processing data in ESP32
+				</div>
+				<div style="width: 50%; text-align: center;">
+					<img src="./media/AdPressure Sensort.gif" alt="Device Setup GIF" style="max-width: 100%; max-height: 100%;" />
+				</div>
+				</div>
+
+				---
+
+				## Calibration
+
+				- Calibration identifies sensor value errors and adjusts code for accuracy.  
+				- The MPU6050 is tested for accelerometer/gyroscope readings over 200 iterations.  
+
+				**Purpose of Calibration:**
+				- Detect errors in X, Y, and Z values.
+				- Adjust values to improve accuracy in activity detection.
+
+				---
+
+				## Computation of Values From Sensors
+
+				<div style="display: flex;">
+				<div style="width: 50%;">
+					**From MPU6050:**
+					- **Roll**: Rotation around the forward/backward axis.
+					- **Pitch**: Rotation around the left/right axis.
+					- **Yaw**: Rotation around the vertical axis.
+				</div>
+				<div style="width: 50%; text-align: center;">
+					<img src="./media/AdPressure Sensort (1).gif" alt="Computation GIF" style="max-width: 100%; max-height: 100%;" />
+				</div>
+				</div>
+
+				---
+
+				## Soldering
+
+				<div style="display: flex;">
+				<div style="width: 50%;">
+					**Why solder the sensors?**
+					1. To make the system wireless and portable.  
+					2. Easier and more accurate activity detection.  
+					3. Convenient for real-world testing.  
+				</div>
+				<div style="width: 50%; text-align: center;">
+					<img src="./media/AdPressure Sensort.gif" alt="Soldering GIF" style="max-width: 100%; max-height: 100%;" />
+				</div>
+				</div>
+
+				---
+
+				## Networking
+
+				<div style="display: flex;">
+				<div style="width: 50%;">
+					- Use **UDP communication** for data transfer from ESP32 to PC.  
+					- Send Yaw, Pitch, Roll, Pressure, and Altitude data encoded with OSC Library.  
+					- Include **frame ID** and time for synchronized data processing.  
+				</div>
+				<div style="width: 50%; text-align: center;">
+					<img src="path-to-networking-gif.gif" alt="Networking GIF" style="max-width: 100%; max-height: 100%;" />
+				</div>
+				</div>
+
+				---
+
+				## Communication
+
+				- **WiFi communication** between ESP32 and PC.  
+				- Benefits:  
+				- Real-time communication.  
+				- Seamless sensor data integration.
+
+				---
+
+				## Taking Measurements and Collecting Data
+
+				### Activity Types:
+				- Steps (Up/Down)
+				- Lift (Up/Down)
+
+				### Data Collection:
+				- Stored in CSV format.
+
+				### Captured Parameters:
+				1. Yaw, Pitch, Roll  
+				2. Pressure  
+				3. Altitude  
+
+				### Timing:
+				- **Time Inside PC**: Real-time data reception.  
+				- **Sensor Time**: Synchronized using NTP Server.
+
+				### Frame Details:
+				- **Frame ID**: Ensures unique identification of each message.  
+				- Updates with every new frame.
+
+				### Training Data:
+				- Collected over 10-15 seconds per session.  
+
+				### Rate of Change:
+				- Pressure-altitude changes:  
+				- 0.01-0.02 for stairs.  
+				- 0.06-0.07 for lifts.  
+
+				---
+
+				## Data
+
+				<div style="display: flex;">
+				<div style="width: 50%;">
+					- Parameters captured during activity:  
+					- Yaw, Pitch, Roll  
+					- Pressure  
+					- Altitude  
+					- Timing & Frame Info  
+				</div>
+				<div style="width: 50%; text-align: center;">
+					<img src="path-to-data-gif.gif" alt="Data GIF" style="max-width: 100%; max-height: 100%;" />
+				</div>
+				</div>
+
+			</script>
+		</section>
+
+		<section>
+			<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+			  <img src="./media/AdPressure Sensort.gif" alt="GIF Animation" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px;" />
 			</div>
-		</div>
+		  </section>
+		  
 
-		<script src="dist/reveal.js"></script>
-		<script src="plugin/notes/notes.js"></script>
-		<script src="plugin/markdown/markdown.js"></script>
-		<script src="plugin/highlight/highlight.js"></script>
-		<script>
-			// More info about initialization & config:
-			// - https://revealjs.com/initialization/
-			// - https://revealjs.com/config/
-			Reveal.initialize({
-				hash: true,
+		
+        <section>
+          <section data-auto-animate>
+          
+                <pre>
+                  <code data-line-numbers="3-5|8-10|67-70">
+import pandas as pd
+import os
 
-				// Learn about plugins: https://revealjs.com/plugins/
-				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
-			});
-		</script>
-	</body>
+# Read the .csv file
+def process_csv(file_path):
+    df = pd.read_csv(file_path)
+    df['adjusted_value'] = df['altitude'] - df['pressure']
+    return df
+
+# Compute rate of change and trend based on derivative
+def compute_rate_of_change(df):
+    # Compute the first derivative of adjusted_value
+    df['rate_of_change'] = df['adjusted_value'].diff() / df.index.to_series().diff().fillna(1)
+
+    # Identify the trend based on the derivative
+    df['trend'] = df['rate_of_change'].apply(lambda x: 'UP' if x > 0 else ('DOWN' if x < 0 else 'STABLE'))
+    return df
+
+# Determine the most probable outcome ignoring STABLE values and handle all UP or DOWN cases
+def get_most_probable_outcome(df):
+    # Filter out STABLE values
+    filtered_df = df[df['trend'].isin(['UP', 'DOWN'])].copy()
+
+    if filtered_df.empty:
+        return "neither"  # No UP or DOWN values
+
+    # Map trends to numeric values
+    trend_mapping = {'UP': 1, 'DOWN': -1}
+    filtered_df.loc[:, 'numeric_trend'] = filtered_df['trend'].map(trend_mapping)
+
+    # Check if all trends are UP or DOWN
+    unique_trends = filtered_df['numeric_trend'].unique()
+    if len(unique_trends) == 1:
+        # Compute product of all values and return the mean
+        product_of_values = filtered_df['rate_of_change'].prod()
+        mean_value = filtered_df['rate_of_change'].mean()
+        print(f"All values are {filtered_df['trend'].iloc[0]}. Product: {product_of_values}, Mean: {mean_value}")
+        return filtered_df['trend'].iloc[0]
+
+    # Calculate frequencies of each trend
+    trend_counts = filtered_df['numeric_trend'].value_counts()
+
+    # Determine the most probable trend
+    max_count = trend_counts.max()
+    probable_trends = trend_counts[trend_counts == max_count].index.tolist()
+
+    # If there's a tie, return "neither"
+    if len(probable_trends) > 1:
+        return "neither"
+    # Otherwise, return the most probable trend
+    else:
+        trend_reverse_mapping = {1: 'UP', -1: 'DOWN'}
+        return trend_reverse_mapping[probable_trends[0]]
+
+# Main function to process multiple files
+def main():
+    input_files = ["nehastepup1.csv", "nehastepdown2.csv", "liftdown2.csv","liftup2.csv","liftdown3.csv" , "anishastepdown1.csv","anishastepup1.csv", "anishastepdown2.csv"]  # Replace with your actual file paths
+
+    for input_file in input_files:
+        try:
+            # Process CSV and compute rate of change
+            df = process_csv(input_file)
+            df = compute_rate_of_change(df)
+
+            # Determine the most probable outcome ignoring STABLE values
+            most_probable_outcome = get_most_probable_outcome(df)
+            
+            # Compute product and mean of the rate of change
+            product_of_values = df['rate_of_change'].prod()
+            mean_value = df['rate_of_change'].mean()
+
+            # Output the results
+            print(f"Results for {input_file}:")
+            print(f"Mean of rate of change: {mean_value}")
+            print(f"Product of rate of change: {product_of_values}")
+            print(f"Most probable outcome: {most_probable_outcome}")
+            print('-' * 50)
+
+        except Exception as e:
+            print(f"Error processing {input_file}: {e}")
+
+if __name__ == "__main__":
+    main()
+                  </code>
+                </pre>
+            
+          </section>
+          
+        </section>
+
+        <section>
+          <h2>Slide 3</h2>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        plugins: [RevealHighlight, RevealMarkdown],
+      });
+    </script>
+  </body>
 </html>
