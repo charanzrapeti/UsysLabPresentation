@@ -22,243 +22,54 @@
         align-items: center;
       }
 
-      .split {
-        display: flex;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-      }
 
-      .code {
-        width: 70%;
-        padding: 10px;
-        
-        box-sizing: border-box;
-        overflow: hidden;
-      }
+    
 
-      .media {
-        width: 30%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        
-        padding: 10px;
-        box-sizing: border-box;
-        overflow: hidden;
-      }
 
-      .media iframe {
-        width: 100%;
-    height: 100%;
-    border: none;
-    object-fit: contain;
-	overflow: hidden;
-      }
-
-      pre {
-        margin: 0;
-        font-size: 16px;
-      }
-
-      code {
-        white-space: pre-wrap;
-        word-wrap: break-word;
-      }
-
-	  .code pre {
-    overflow: hidden; /* Prevent scrollbars inside the <pre> tag */
-    white-space: pre-wrap; /* Allow wrapping inside the <pre> tag */
-    word-wrap: break-word; /* Break long words to prevent overflow */
-  }
     </style>
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
 
-		<section>
-			SLIde 1
-		</section>
-
-		<section data-markdown>
-			<script type="text/template">
-				# Ubiquitous Systems Lab  
-				## Project: Stair vs Lift Detector  
-
-				<div style="text-align: center;">
-				<img src="path-to-your-image.jpg" alt="Project Image" style="max-width: 80%; max-height: 80%; object-fit: contain;" />
-				</div>
-
-				<div style="position: absolute; bottom: 20px; right: 20px;">
-				<ul>
-					<li>Person1 - 1825068</li>
-					<li>Person2 - 1841219</li>
-					<li>Person3 - 1845374</li>
-				</ul>
-				</div>
-
-				---
-
-				## Introduction
-
-				### Objective:
-				Detect the activity of a person using a wearable device with embedded sensors, identifying whether they're using stairs or a lift.
-
-				### Components Used:
-				- **WESMOS LOLIN 32 LITE board**
-				- **MPU6050** (Accelerometer/Gyroscope)
-				- **BMP280** (Pressure Sensor)
-
-				### Key Features:
-				- Calculate roll, pitch, and yaw using accelerometer data.
-				- Detect lift vs stair activity through sensor data analysis.
-				- Utilize x, y, z accelerations and pressure/altitude to predict:
-				- Human activity (lift or steps).
-				- Direction (up or down).
-				- Number of steps taken.
-
-				---
-
-				## Hardware - Device Setup
-
-				<div style="display: flex;">
-				<div style="width: 50%;">
-					- Using I2C communication for data collection via ESP32  
-					- Collecting 3-axis rotation/acceleration (MPU6050)  
-					- Measuring pressure/altitude (BMP280)  
-					- Processing data in ESP32
-				</div>
-				<div style="width: 50%; text-align: center;">
-					<img src="./media/AdPressure Sensort.gif" alt="Device Setup GIF" style="max-width: 100%; max-height: 100%;" />
-				</div>
-				</div>
-
-				---
-
-				## Calibration
-
-				- Calibration identifies sensor value errors and adjusts code for accuracy.  
-				- The MPU6050 is tested for accelerometer/gyroscope readings over 200 iterations.  
-
-				**Purpose of Calibration:**
-				- Detect errors in X, Y, and Z values.
-				- Adjust values to improve accuracy in activity detection.
-
-				---
-
-				## Computation of Values From Sensors
-
-				<div style="display: flex;">
-				<div style="width: 50%;">
-					**From MPU6050:**
-					- **Roll**: Rotation around the forward/backward axis.
-					- **Pitch**: Rotation around the left/right axis.
-					- **Yaw**: Rotation around the vertical axis.
-				</div>
-				<div style="width: 50%; text-align: center;">
-					<img src="./media/AdPressure Sensort (1).gif" alt="Computation GIF" style="max-width: 100%; max-height: 100%;" />
-				</div>
-				</div>
-
-				---
-
-				## Soldering
-
-				<div style="display: flex;">
-				<div style="width: 50%;">
-					**Why solder the sensors?**
-					1. To make the system wireless and portable.  
-					2. Easier and more accurate activity detection.  
-					3. Convenient for real-world testing.  
-				</div>
-				<div style="width: 50%; text-align: center;">
-					<img src="./media/AdPressure Sensort.gif" alt="Soldering GIF" style="max-width: 100%; max-height: 100%;" />
-				</div>
-				</div>
-
-				---
-
-				## Networking
-
-				<div style="display: flex;">
-				<div style="width: 50%;">
-					- Use **UDP communication** for data transfer from ESP32 to PC.  
-					- Send Yaw, Pitch, Roll, Pressure, and Altitude data encoded with OSC Library.  
-					- Include **frame ID** and time for synchronized data processing.  
-				</div>
-				<div style="width: 50%; text-align: center;">
-					<img src="path-to-networking-gif.gif" alt="Networking GIF" style="max-width: 100%; max-height: 100%;" />
-				</div>
-				</div>
-
-				---
-
-				## Communication
-
-				- **WiFi communication** between ESP32 and PC.  
-				- Benefits:  
-				- Real-time communication.  
-				- Seamless sensor data integration.
-
-				---
-
-				## Taking Measurements and Collecting Data
-
-				### Activity Types:
-				- Steps (Up/Down)
-				- Lift (Up/Down)
-
-				### Data Collection:
-				- Stored in CSV format.
-
-				### Captured Parameters:
-				1. Yaw, Pitch, Roll  
-				2. Pressure  
-				3. Altitude  
-
-				### Timing:
-				- **Time Inside PC**: Real-time data reception.  
-				- **Sensor Time**: Synchronized using NTP Server.
-
-				### Frame Details:
-				- **Frame ID**: Ensures unique identification of each message.  
-				- Updates with every new frame.
-
-				### Training Data:
-				- Collected over 10-15 seconds per session.  
-
-				### Rate of Change:
-				- Pressure-altitude changes:  
-				- 0.01-0.02 for stairs.  
-				- 0.06-0.07 for lifts.  
-
-				---
-
-				## Data
-
-				<div style="display: flex;">
-				<div style="width: 50%;">
-					- Parameters captured during activity:  
-					- Yaw, Pitch, Roll  
-					- Pressure  
-					- Altitude  
-					- Timing & Frame Info  
-				</div>
-				<div style="width: 50%; text-align: center;">
-					<img src="path-to-data-gif.gif" alt="Data GIF" style="max-width: 100%; max-height: 100%;" />
-				</div>
-				</div>
-
-			</script>
-		</section>
+	
 
 		<section>
-			<div style="display: flex; justify-content: center; align-items: center; height: 100%;">
-			  <img src="./media/AdPressure Sensort.gif" alt="GIF Animation" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px;" />
-			</div>
-		  </section>
-		  
+			<img src="./media/1.jpg" alt="" srcset="">
+		</section>
+		<section>
+			<img src="./media/2.jpg" alt="" srcset="">
+		</section>
+		<section>
+			<img src="./media/3.gif" alt="" srcset="">
+		</section>
+		<section>
+			<img src="./media/4.jpg" alt="" srcset="">
+		</section>
+		<section>
+			<img src="./media/5.jpg" alt="" srcset="">
+		</section>
+		<section>
+			<img src="./media/7.gif" alt="" srcset="">
+		</section>
+		<section>
+			<img src="./media/8.jpg" alt="" srcset="">
+		</section>
+		<section>
+			<img src="./media/9.jpg" alt="" srcset="">
+		</section>
+		<section>
+			<img src="./media/10.jpg" alt="" srcset="">
+		</section>
+
+
+
+	
+		
+
+	
+
+		
 
 		
         <section>
